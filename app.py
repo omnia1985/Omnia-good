@@ -1,6 +1,7 @@
-"""Omnia DeepArena IA — السينما الكروية (نسخة محدّثة)"""
-import streamlit as st
+"""Omnia DeepArena IA — الصفحة الرئيسية (app.py)"""
 import html
+from pathlib import Path
+import streamlit as st
 
 st.set_page_config(page_title="Omnia DeepArena IA", page_icon="⚽",
                    layout="wide", initial_sidebar_state="expanded")
@@ -52,7 +53,7 @@ footer { visibility: hidden; }
 .block-container { padding-top: 3rem; padding-bottom: 3rem; }
 .rtl { direction: rtl; text-align: right; }
 
-/* شريط التحكم العلوي (لغة + موسيقى) */
+/* شريط التحكم العلوي */
 .top-controls {
     background: linear-gradient(135deg, rgba(0,255,136,.08) 0%, rgba(0,212,255,.04) 100%);
     border: 1px solid rgba(0,255,136,.30);
@@ -153,7 +154,7 @@ footer { visibility: hidden; }
 }
 @keyframes flare { 0%,100% { opacity: .35; transform: scale(1); } 50% { opacity: .8; transform: scale(1.15); } }
 
-/* 🎭 تأثير تغبيش الوجه (للناشئين - GDPR) */
+/* تأثير تغبيش الوجه */
 .blur-face img {
     filter: blur(8px) brightness(.7) saturate(1.1) !important;
     transition: filter .5s ease !important;
@@ -325,7 +326,7 @@ L = {
             ("🏆 أندية البطولات الكبرى", "1500$/ش", "الدخول السيبراني المعزول Cyber Sandbox", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
             ("📋 الامتثال + بورصة اللاعبين", "%2.5 + %5", "عمولة بورصة %2.5 | %5 للمنصة + %2.5 للنشأة", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
             ("📣 الرعاة والمستشهرين", "500$/ش", "500$ شهرياً أو 5000$ سنوياً (منفصل خارجياً)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
-            ("🏅 الاتحاد الكروي", "150,000$/سنة", "تقارير الفيفا العلنية للتكنولوجيا", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 الاتحاد الكروي", "150,000$/سنة", "تقارير الفيفا العلنية للتكنولوجيا", "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80&auto=format&fit=crop", False),
             ("🚌 اللوجستية والفروع", "30$/ش", "تتبع حافلات الفريق والمعدات الميدانية", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 الكل", "⚽ اللاعبون", "🏟️ الأندية", "📡 الكشافة", "📋 المال", "🏅 الاتحادات"],
@@ -353,7 +354,7 @@ L = {
             ("🏆 Championship Clubs", "$1500/Mo", "Military-Grade Cyber Sandbox", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
             ("📋 Compliance + Token", "2.5% + 5%", "2.5% Token | 5% Platform + 2.5% Youth", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
             ("📣 Sponsors", "$500/Mo", "$500/Mo or $5000/Yr (fund isolated)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
-            ("🏅 Federation", "$150K/Yr", "FIFA Tech-Penetration Reports", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Federation", "$150K/Yr", "FIFA Tech-Penetration Reports", "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80&auto=format&fit=crop", False),
             ("🚌 Logistics", "$30/Mo", "Team Bus & Field Assets Tracking", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 All", "⚽ Players", "🏟️ Clubs", "📡 Scouts", "📋 Finance", "🏅 Federations"],
@@ -381,7 +382,7 @@ L = {
             ("🏆 Top Clubs", "1500$/M", "Cyber Sandbox Militaire", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
             ("📋 Conformité + Token", "2.5% + 5%", "2.5% Token | 5% Plateforme + 2.5% Formation", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
             ("📣 Sponsors", "500$/M", "500$/M ou 5000$/An (fonds isolé)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
-            ("🏅 Fédération", "150K$/An", "Rapports FIFA Publics", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Fédération", "150K$/An", "Rapports FIFA Publics", "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80&auto=format&fit=crop", False),
             ("🚌 Logistique", "30$/M", "Suivi Bus Équipe & Actifs", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 Tout", "⚽ Joueurs", "🏟️ Clubs", "📡 Recruteurs", "📋 Finance", "🏅 Fédérations"],
@@ -409,7 +410,7 @@ L = {
             ("🏆 Grandes Clubes", "1500$/M", "Cyber Sandbox Militar", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
             ("📋 Cumplimiento + Token", "2.5% + 5%", "2.5% Token | 5% Plataforma + 2.5% Formación", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
             ("📣 Patrocinadores", "500$/M", "500$/M o 5000$/Año (aislado)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
-            ("🏅 Federación", "150K$/Año", "Informes FIFA Públicos", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Federación", "150K$/Año", "Informes FIFA Públicos", "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80&auto=format&fit=crop", False),
             ("🚌 Logística", "30$/M", "Autobús y Activos del Equipo", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 Todo", "⚽ Jugadores", "🏟️ Clubs", "📡 Ojeadores", "📋 Finanzas", "🏅 Federaciones"],
@@ -437,7 +438,7 @@ L = {
             ("🏆 Grandi Club", "1500$/M", "Cyber Sandbox Militare", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
             ("📋 Conformità + Token", "2.5% + 5%", "2.5% Token | 5% Piattaforma + 2.5% Formazione", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
             ("📣 Sponsor", "500$/M", "500$/M o 5000$/Anno (isolato)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
-            ("🏅 Federazione", "150K$/Anno", "Report FIFA Pubblici", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Federazione", "150K$/Anno", "Report FIFA Pubblici", "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80&auto=format&fit=crop", False),
             ("🚌 Logistica", "30$/M", "Bus Squadra e Asset", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 Tutto", "⚽ Giocatori", "🏟️ Club", "📡 Scout", "📋 Finanza", "🏅 Federazioni"],
@@ -465,7 +466,7 @@ L = {
             ("🏆 Grandes", "1500$/M", "Cyber Sandbox Militar", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
             ("📋 Conformidade + Token", "2.5% + 5%", "2.5% Token | 5% Plataforma + 2.5% Formação", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
             ("📣 Patrocinadores", "500$/M", "500$/M ou 5000$/Ano (isolado)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
-            ("🏅 Federação", "150K$/Ano", "Relatórios FIFA Públicos", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Federação", "150K$/Ano", "Relatórios FIFA Públicos", "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80&auto=format&fit=crop", False),
             ("🚌 Logística", "30$/M", "Ônibus e Ativos da Equipe", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 Tudo", "⚽ Jogadores", "🏟️ Clubes", "📡 Olheiros", "📋 Finanças", "🏅 Federações"],
@@ -475,14 +476,37 @@ L = {
 CATS_MAP = [None, {0,1}, {3,4,5,9}, {2}, {6}, {7,8}]
 
 # ══════════════════════════════════════════════════════════════
+# مسارات صفحات pages/ (مطابقة لترتيب الباقات)
+# ══════════════════════════════════════════════════════════════
+PAGE_PATHS = {
+    0: "pages/1_👶_Youth_Players.py",
+    1: "pages/2_Seniors.py",
+    2: "pages/3_Scouts.py",
+    3: "pages/4_Amateur.py",
+    4: "pages/5_Div1.py",
+    5: "pages/6_Elite.py",
+    6: "pages/7_Compliance.py",
+    7: "pages/8_Sponsors.py",
+    8: "pages/9_Federation.py",
+    9: "pages/10_Logistics.py",
+}
+
+# ══════════════════════════════════════════════════════════════
 # الحالة
 # ══════════════════════════════════════════════════════════════
 if "lang" not in st.session_state:
     st.session_state.lang = "🇸🇦 العربية"
-if "page" not in st.session_state:
-    st.session_state.page = None
 if "playing" not in st.session_state:
     st.session_state.playing = False
+
+
+def open_page(i, ui):
+    """يفتح صفحة الباقة الحقيقية من مجلد pages/ إن وُجدت."""
+    target = PAGE_PATHS.get(i)
+    if target and Path(target).exists():
+        st.switch_page(target)
+    else:
+        st.toast(f"🛠️ قيد الإعداد — {target}", icon="⚠️")
 
 
 # ══════════════════════════════════════════════════════════════
@@ -521,155 +545,101 @@ else:
 
 
 # ══════════════════════════════════════════════════════════════
-# عرض الصفحات
+# الواجهة الرئيسية
 # ══════════════════════════════════════════════════════════════
-def show_home():
-    d = "rtl" if rtl else "ltr"
+d = "rtl" if rtl else "ltr"
 
-    # ═══ شريط التحكم العلوي (لغة + موسيقى) ═══
-    st.markdown(f'<div class="top-controls"><div class="top-controls-title">⚙️ {esc(t["controls"])}</div></div>', unsafe_allow_html=True)
+# شريط التحكم العلوي
+st.markdown(f'<div class="top-controls"><div class="top-controls-title">⚙️ {esc(t["controls"])}</div></div>', unsafe_allow_html=True)
 
-    colA, colB = st.columns([1, 1])
-    with colA:
-        st.markdown(f"**{t['lang_label']}**")
-        new_lang = st.selectbox(
-            "", list(L.keys()),
-            index=list(L.keys()).index(st.session_state.lang),
-            key="top_lang"
-        )
-        if new_lang != st.session_state.lang:
-            st.session_state.lang = new_lang
-            st.rerun()
-
-    with colB:
-        st.markdown(f"**{t['music_label']}**")
-        cc1, cc2 = st.columns(2)
-        with cc1:
-            if st.button(t["play"], key="play_btn_top", use_container_width=True):
-                st.session_state.playing = True
-                st.rerun()
-        with cc2:
-            if st.button(t["stop"], key="stop_btn_top", use_container_width=True):
-                st.session_state.playing = False
-                st.rerun()
-
-    if st.session_state.playing:
-        st.audio(
-            "https://static.calcionapoli1926.it/202109/Uefa-Champions-League.mp3",
-            format="audio/mp3"
-        )
-
-    st.markdown("<br>", unsafe_allow_html=True)
-
-    # ═══ HERO ═══
-    st.markdown(f"""
-    <div class="hero {d}" dir="{d}">
-        <div class="ball-float">⚽</div>
-        <div class="lens-flare"></div>
-        <div class="hero-eyebrow">OMNIA DEEPARENA • 2030</div>
-        <div class="hero-title"><span class="hero-text">{esc(t['title'])}</span></div>
-        <div class="hero-tagline">✦ {esc(t['tagline'])} ✦</div>
-        <div class="hero-credit">A FOOTBALL STORY</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # ═══ البحث ═══
-    query = st.text_input(t["search"], label_visibility="collapsed")
-    needle = query.strip().casefold()
-
-    # ═══ التبويبات ═══
-    tabs = st.tabs(t["cats"])
-    packs = t["packs"]
-    for idx, (tab, members) in enumerate(zip(tabs, CATS_MAP)):
-        with tab:
-            shown = []
-            for i, pack in enumerate(packs):
-                if members is not None and i not in members:
-                    continue
-                if needle and needle not in pack[0].casefold() and needle not in pack[2].casefold():
-                    continue
-                shown.append(i)
-
-            if not shown:
-                st.info("—")
-                continue
-
-            for row_start in range(0, len(shown), 2):
-                cols = st.columns(2, gap="large")
-                for col, i in zip(cols, shown[row_start:row_start + 2]):
-                    name, price, desc, img, blur = packs[i]
-                    blur_class = "blur-face" if blur else ""
-                    blur_badge = f'<span class="blur-badge">{esc(t["gdpr"])}</span>' if blur else ""
-                    with col:
-                        st.markdown(f"""
-                        <div class="glass-card {d} {blur_class}" dir="{d}">
-                            <div class="card-tape"></div>
-                            <div class="card-img-wrap">
-                                <img class="card-img" src="{img}" loading="lazy" alt="football">
-                                <div class="card-icon">{name.split()[0]}</div>
-                                {blur_badge}
-                            </div>
-                            <div class="card-body">
-                                <div class="card-title">{esc(' '.join(name.split()[1:]))}</div>
-                                <div class="card-desc">{esc(desc)}</div>
-                                <div class="card-price-wrap">
-                                    <span class="price-badge">💰 {esc(price)}</span>
-                                </div>
-                            </div>
-                        </div>
-                        """, unsafe_allow_html=True)
-                        if st.button(t["open"], key=f"open_{idx}_{i}"):
-                            st.session_state.page = i
-                            st.rerun()
-
-
-def show_pack(i):
-    d = "rtl" if rtl else "ltr"
-    name, price, desc, img, blur = t["packs"][i]
-
-    st.markdown(f"""
-    <div class="hero {d}" dir="{d}" style="padding:40px 30px;">
-        <div class="hero-eyebrow">PACK #P{i+1}</div>
-        <div class="hero-title"><span class="hero-text">{esc(name)}</span></div>
-        <div class="hero-tagline" style="margin-top:10px;">💰 {esc(price)}</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    col1, col2 = st.columns([1, 1])
-    with col1:
-        blur_class = "blur-face" if blur else ""
-        st.markdown(f'<div class="{blur_class}">', unsafe_allow_html=True)
-        st.image(img, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
-        if blur:
-            st.caption(f"🔒 {t['gdpr']}")
-    with col2:
-        st.markdown(f"""
-        <div class="glass-card {d}" dir="{d}" style="padding:20px;">
-            <div class="card-body">
-                <h3 style="color:#00ff88; margin-top:0;">💰 {esc(price)}</h3>
-                <p style="color:#dbe7e1; line-height:1.8;">{esc(desc)}</p>
-                <hr style="border-color:rgba(0,255,136,.2);">
-                <p style="color:#dbe7e1; line-height:1.8;">
-                    ✅ تجربة كاملة للمنصة<br>
-                    ✅ دعم فني على مدار الساعة<br>
-                    ✅ تحديثات مجانية مستمرة<br>
-                    ✅ تكامل مع كل اللوائح
-                </p>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-
-    st.markdown("---")
-    if st.button(t["back"], use_container_width=True, key="back_home"):
-        st.session_state.page = None
+colA, colB = st.columns([1, 1])
+with colA:
+    st.markdown(f"**{t['lang_label']}**")
+    new_lang = st.selectbox(
+        "", list(L.keys()),
+        index=list(L.keys()).index(st.session_state.lang),
+        key="top_lang"
+    )
+    if new_lang != st.session_state.lang:
+        st.session_state.lang = new_lang
         st.rerun()
 
+with colB:
+    st.markdown(f"**{t['music_label']}**")
+    cc1, cc2 = st.columns(2)
+    with cc1:
+        if st.button(t["play"], key="play_btn_top", use_container_width=True):
+            st.session_state.playing = True
+            st.rerun()
+    with cc2:
+        if st.button(t["stop"], key="stop_btn_top", use_container_width=True):
+            st.session_state.playing = False
+            st.rerun()
 
-# ══════════════════════════════════════════════════════════════
-# التنفيذ
-# ══════════════════════════════════════════════════════════════
-if st.session_state.page is None:
-    show_home()
-else:
-    show_pack(st.session_state.page)
+if st.session_state.playing:
+    st.audio(
+        "https://static.calcionapoli1926.it/202109/Uefa-Champions-League.mp3",
+        format="audio/mp3"
+    )
+
+st.markdown("<br>", unsafe_allow_html=True)
+
+# HERO
+st.markdown(f"""
+<div class="hero {d}" dir="{d}">
+    <div class="ball-float">⚽</div>
+    <div class="lens-flare"></div>
+    <div class="hero-eyebrow">OMNIA DEEPARENA • 2030</div>
+    <div class="hero-title"><span class="hero-text">{esc(t['title'])}</span></div>
+    <div class="hero-tagline">✦ {esc(t['tagline'])} ✦</div>
+    <div class="hero-credit">A FOOTBALL STORY</div>
+</div>
+""", unsafe_allow_html=True)
+
+# البحث
+query = st.text_input(t["search"], label_visibility="collapsed")
+needle = query.strip().casefold()
+
+# التبويبات
+tabs = st.tabs(t["cats"])
+packs = t["packs"]
+for idx, (tab, members) in enumerate(zip(tabs, CATS_MAP)):
+    with tab:
+        shown = []
+        for i, pack in enumerate(packs):
+            if members is not None and i not in members:
+                continue
+            if needle and needle not in pack[0].casefold() and needle not in pack[2].casefold():
+                continue
+            shown.append(i)
+
+        if not shown:
+            st.info("—")
+            continue
+
+        for row_start in range(0, len(shown), 2):
+            cols = st.columns(2, gap="large")
+            for col, i in zip(cols, shown[row_start:row_start + 2]):
+                name, price, desc, img, blur = packs[i]
+                blur_class = "blur-face" if blur else ""
+                blur_badge = f'<span class="blur-badge">{esc(t["gdpr"])}</span>' if blur else ""
+                with col:
+                    st.markdown(f"""
+                    <div class="glass-card {d} {blur_class}" dir="{d}">
+                        <div class="card-tape"></div>
+                        <div class="card-img-wrap">
+                            <img class="card-img" src="{img}" loading="lazy" alt="football">
+                            <div class="card-icon">{name.split()[0]}</div>
+                            {blur_badge}
+                        </div>
+                        <div class="card-body">
+                            <div class="card-title">{esc(' '.join(name.split()[1:]))}</div>
+                            <div class="card-desc">{esc(desc)}</div>
+                            <div class="card-price-wrap">
+                                <span class="price-badge">💰 {esc(price)}</span>
+                            </div>
+                        </div>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    if st.button(t["open"], key=f"open_{idx}_{i}"):
+                        open_page(i, t)
