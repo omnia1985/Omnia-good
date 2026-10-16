@@ -1,4 +1,4 @@
-"""Omnia DeepArena IA — السينما الكروية الكاملة (ملف واحد)"""
+"""Omnia DeepArena IA — السينما الكروية (نسخة محدّثة)"""
 import streamlit as st
 import html
 
@@ -11,7 +11,7 @@ def esc(t):
 
 
 # ══════════════════════════════════════════════════════════════
-# 🎬 CSS سينمائي كامل
+# 🎬 CSS سينمائي
 # ══════════════════════════════════════════════════════════════
 st.markdown("""
 <style>
@@ -19,8 +19,6 @@ st.markdown("""
     --neon:#00ff88; --cyan:#00d4ff; --gold:#ffaa00;
     --ink:#eaf6f0; --muted:#b4c7bf;
 }
-
-/* خلفية سينمائية */
 .stApp {
     background:
         radial-gradient(ellipse at 20% 10%, rgba(0,212,255,.10), transparent 55%),
@@ -30,18 +28,15 @@ st.markdown("""
     color: var(--ink);
     font-family: 'Inter', 'Segoe UI', sans-serif;
 }
-/* Film Grain */
 .stApp::before {
     content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: .06;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
     mix-blend-mode: overlay;
 }
-/* Vignette */
 .stApp::after {
     content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9998;
     background: radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,.65) 100%);
 }
-/* Letterbox */
 .letterbox {
     position: fixed; left: 0; right: 0; height: 32px;
     background: linear-gradient(180deg, #000 0%, rgba(0,0,0,.85) 70%, transparent 100%);
@@ -52,11 +47,30 @@ st.markdown("""
     bottom: 0;
     background: linear-gradient(0deg, #000 0%, rgba(0,0,0,.85) 70%, transparent 100%);
 }
-
 [data-testid="stHeader"] { background: transparent; }
 footer { visibility: hidden; }
-.block-container { padding-top: 3.5rem; padding-bottom: 3rem; }
+.block-container { padding-top: 3rem; padding-bottom: 3rem; }
 .rtl { direction: rtl; text-align: right; }
+
+/* شريط التحكم العلوي (لغة + موسيقى) */
+.top-controls {
+    background: linear-gradient(135deg, rgba(0,255,136,.08) 0%, rgba(0,212,255,.04) 100%);
+    border: 1px solid rgba(0,255,136,.30);
+    border-radius: 18px;
+    padding: 18px 22px;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.5);
+    backdrop-filter: blur(15px);
+}
+.top-controls-title {
+    color: var(--neon);
+    font-size: .75rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(0,255,136,.6);
+}
 
 /* Sidebar */
 [data-testid="stSidebar"] {
@@ -70,10 +84,10 @@ footer { visibility: hidden; }
 }
 [data-testid="stSidebar"] div[data-baseweb="select"] * { color: var(--ink) !important; }
 
-/* HERO سينمائي */
+/* HERO */
 .hero {
     position: relative; overflow: hidden;
-    padding: 70px 40px 60px 40px; margin-bottom: 24px;
+    padding: 60px 40px 50px 40px; margin-bottom: 24px;
     border-radius: 28px;
     border: 1px solid rgba(0,255,136,.22);
     background-image:
@@ -114,17 +128,11 @@ footer { visibility: hidden; }
     font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
     margin-top: 14px; text-shadow: 0 0 24px rgba(255,170,0,.6);
 }
-.hero-sub {
-    color: rgba(234,246,240,.85); margin-top: 18px;
-    font-size: 1rem; line-height: 1.8; max-width: 780px;
-}
 .hero-credit {
     position: absolute; bottom: 14px; right: 24px;
     color: rgba(255,255,255,.35); font-size: .68rem;
     letter-spacing: 4px; text-transform: uppercase;
 }
-
-/* كرة طائرة */
 .ball-float {
     position: absolute; top: 30px; right: 40px;
     width: 58px; height: 58px; border-radius: 50%;
@@ -136,8 +144,6 @@ footer { visibility: hidden; }
 }
 @keyframes ballSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
 @keyframes ballFloat { 0%,100%{margin-top:0} 50%{margin-top:-12px} }
-
-/* Lens Flare */
 .lens-flare {
     position: absolute; top: 15%; right: 8%;
     width: 200px; height: 200px;
@@ -147,34 +153,27 @@ footer { visibility: hidden; }
 }
 @keyframes flare { 0%,100% { opacity: .35; transform: scale(1); } 50% { opacity: .8; transform: scale(1.15); } }
 
-/* Pitch 3D */
-.pitch-wrap { max-width: 760px; margin: 40px auto; perspective: 1100px; }
-.pitch {
-    position: relative; width: 100%; aspect-ratio: 3/2; border-radius: 20px;
-    background:
-        radial-gradient(ellipse at center, rgba(0,255,136,.08) 0%, transparent 70%),
-        repeating-linear-gradient(90deg,
-            rgba(0,45,20,.92) 0px, rgba(0,45,20,.92) 42px,
-            rgba(0,60,28,.92) 42px, rgba(0,60,28,.92) 84px);
-    border: 2px solid rgba(0,255,136,.40);
-    box-shadow: 0 40px 100px rgba(0,0,0,.75), inset 0 0 80px rgba(0,0,0,.7), 0 0 50px rgba(0,255,136,.15);
-    transform: rotateX(8deg);
-    animation: pitchRise 1.8s ease-out;
+/* 🎭 تأثير تغبيش الوجه (للناشئين - GDPR) */
+.blur-face img {
+    filter: blur(8px) brightness(.7) saturate(1.1) !important;
+    transition: filter .5s ease !important;
 }
-@keyframes pitchRise { from { opacity: 0; transform: rotateX(8deg) scale(.95); } to { opacity: 1; transform: rotateX(8deg) scale(1); } }
-.pitch::before {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background:
-        linear-gradient(90deg, transparent calc(50% - 1px), rgba(255,255,255,.55) calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)),
-        radial-gradient(circle at 50% 50%, transparent 0 52px, rgba(255,255,255,.55) 53px 55px, transparent 56px);
+.blur-face:hover img {
+    filter: blur(2px) brightness(.85) saturate(1.2) !important;
 }
-.pitch-label {
-    text-align: center; color: var(--neon); font-size: .78rem;
-    letter-spacing: 8px; margin-bottom: 16px; font-weight: 700;
-    text-transform: uppercase; text-shadow: 0 0 20px rgba(0,255,136,.8);
+.blur-badge {
+    position: absolute; bottom: 10px; left: 10px;
+    background: rgba(0,0,0,.85); color: #00ff88;
+    font-size: .65rem; font-weight: 700;
+    padding: 4px 10px; border-radius: 12px;
+    letter-spacing: 1px; text-transform: uppercase;
+    border: 1px solid rgba(0,255,136,.5);
+    z-index: 4;
+    backdrop-filter: blur(10px);
 }
+.glass-card.rtl .blur-badge { left: auto; right: 10px; }
 
-/* Cards سينمائية */
+/* Cards */
 .glass-card {
     position: relative; overflow: hidden;
     background: linear-gradient(180deg, rgba(20,25,22,.75) 0%, rgba(5,10,8,.95) 100%);
@@ -214,8 +213,6 @@ footer { visibility: hidden; }
     background: linear-gradient(90deg, var(--neon), var(--cyan), var(--gold), var(--neon));
     background-size: 300% auto; animation: shimmer 4s linear infinite; z-index: 4;
 }
-
-/* شارة ذهبية نابضة */
 .card-price-wrap {
     text-align: center; margin-top: 12px; padding-top: 12px;
     border-top: 1px dashed rgba(255,170,0,.3);
@@ -233,7 +230,7 @@ footer { visibility: hidden; }
     50% { box-shadow: 0 6px 30px rgba(255,170,0,.95), 0 0 60px rgba(255,170,0,.55); }
 }
 
-/* أزرار */
+/* Buttons */
 div.stButton > button {
     width: 100%;
     background: linear-gradient(180deg, rgba(0,255,136,.14) 0%, rgba(0,255,136,.04) 100%);
@@ -258,12 +255,6 @@ div.stButton > button:hover {
     background: linear-gradient(180deg, rgba(255,170,0,.35) 0%, rgba(255,170,0,.15) 100%) !important;
     color: #fff !important;
     box-shadow: 0 0 25px rgba(255,170,0,.7) !important;
-}
-[data-testid="stSidebar"] div.stDownloadButton > button {
-    background: linear-gradient(180deg, rgba(0,255,136,.18) 0%, rgba(0,255,136,.05) 100%) !important;
-    color: var(--neon) !important;
-    border: 1px solid rgba(0,255,136,.5) !important;
-    width: 100% !important;
 }
 
 /* Search */
@@ -308,174 +299,179 @@ div[data-baseweb="input"] input {
 
 
 # ══════════════════════════════════════════════════════════════
-# 6 لغات × 10 باقات (كامل داخل الملف)
+# 6 لغات × 10 باقات
 # ══════════════════════════════════════════════════════════════
 L = {
     "🇸🇦 العربية": {
         "title": "منصة Omnia DeepArena الرقمية العالمية",
         "tagline": "قصة كرة القدم تُروى هنا",
-        "sub": "⚽ كل ما يهم كرة القدم — وكرة القدم فقط.",
         "search": "🔎 ابحث عن باقة...",
         "open": "⚽ فتح الخدمة",
         "back": "⬅️ العودة إلى الرئيسية",
-        "pitch": "الخريطة التكتيكية",
         "playing": "🎶 يعزف الآن",
         "stopped": "🔇 متوقف",
         "play": "▶️ تشغيل",
         "stop": "⏸️ إيقاف",
-        "dl": "⬇️ تحميل",
+        "controls": "التحكم السريع",
+        "lang_label": "🌐 اللغة",
+        "music_label": "🎵 موسيقى دوري الأبطال",
+        "gdpr": "🔒 وجه مُغبّش (حماية الأطفال)",
         "packs": [
-            ("🥅 باقة الناشئين", "20$/ش", "مجاناً دون 16 سنة بموافقة الولي والـ GDPR", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop"),
-            ("👟 باقة اللاعبين الكبار", "30$/ش", "تتبع YOLO26 والجاهزية البدنية الكاملة", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop"),
-            ("📡 باقة الكشافين", "50$/ش", "رادار الفرز وقنوات التفاوض المشفرة", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop"),
-            ("🏟️ أندية الهواة", "150$/ش", "لوحة المدرب ومحرك الريمونتادا (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop"),
-            ("🎽 أندية القسم الأول", "500$/ش", "بث الدرون والتوأم الرقمي للمباريات", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop"),
-            ("🏆 أندية البطولات الكبرى", "1500$/ش", "الدخول السيبراني المعزول Cyber Sandbox", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop"),
-            ("📋 الامتثال + بورصة اللاعبين", "%2.5 + %5", "عمولة بورصة %2.5 | %5 للمنصة + %2.5 للنشأة", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop"),
-            ("📣 الرعاة والمستشهرين", "500$/ش", "500$ شهرياً أو 5000$ سنوياً (منفصل خارجياً)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop"),
-            ("🏅 الاتحاد الكروي", "150,000$/سنة", "تقارير الفيفا العلنية للتكنولوجيا", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop"),
-            ("🚌 اللوجستية والفروع", "30$/ش", "تتبع حافلات الفريق والمعدات الميدانية", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop"),
+            ("🥅 باقة الناشئين", "20$/ش", "مجاناً دون 16 سنة بموافقة الولي والـ GDPR", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop", True),
+            ("👟 باقة اللاعبين الكبار", "30$/ش", "تتبع YOLO26 والجاهزية البدنية الكاملة", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop", False),
+            ("📡 باقة الكشافين", "50$/ش", "رادار الفرز وقنوات التفاوض المشفرة", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop", False),
+            ("🏟️ أندية الهواة", "150$/ش", "لوحة المدرب ومحرك الريمونتادا (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop", False),
+            ("🎽 أندية القسم الأول", "500$/ش", "بث الدرون والتوأم الرقمي للمباريات", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop", False),
+            ("🏆 أندية البطولات الكبرى", "1500$/ش", "الدخول السيبراني المعزول Cyber Sandbox", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
+            ("📋 الامتثال + بورصة اللاعبين", "%2.5 + %5", "عمولة بورصة %2.5 | %5 للمنصة + %2.5 للنشأة", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
+            ("📣 الرعاة والمستشهرين", "500$/ش", "500$ شهرياً أو 5000$ سنوياً (منفصل خارجياً)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 الاتحاد الكروي", "150,000$/سنة", "تقارير الفيفا العلنية للتكنولوجيا", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🚌 اللوجستية والفروع", "30$/ش", "تتبع حافلات الفريق والمعدات الميدانية", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 الكل", "⚽ اللاعبون", "🏟️ الأندية", "📡 الكشافة", "📋 المال", "🏅 الاتحادات"],
     },
     "🇬🇧 English": {
         "title": "Omnia DeepArena Global Platform",
         "tagline": "The story of football told here",
-        "sub": "⚽ Everything that matters in football — and only football.",
         "search": "🔎 Search a pack...",
         "open": "⚽ Open service",
         "back": "⬅️ Back to Home",
-        "pitch": "Tactical Map",
         "playing": "🎶 Playing now",
         "stopped": "🔇 Stopped",
         "play": "▶️ Play",
         "stop": "⏸️ Pause",
-        "dl": "⬇️ Download",
+        "controls": "Quick Controls",
+        "lang_label": "🌐 Language",
+        "music_label": "🎵 UCL Anthem",
+        "gdpr": "🔒 Face blurred (child protection)",
         "packs": [
-            ("🥅 Youth Pack", "$20/Mo", "FREE under 16 with Parental Consent & GDPR", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop"),
-            ("👟 Seniors Pack", "$30/Mo", "YOLO26 Kinematic Tracking & Readiness", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop"),
-            ("📡 Scouts Market", "$50/Mo", "Ingestion Radar & Encrypted Channels", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop"),
-            ("🏟️ Amateur Clubs", "$150/Mo", "Coach HUD & Remontada Engine (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop"),
-            ("🎽 Division 1 Clubs", "$500/Mo", "Drone Feed & Digital Twins", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop"),
-            ("🏆 Championship Clubs", "$1500/Mo", "Military-Grade Cyber Sandbox", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop"),
-            ("📋 Compliance + Token", "2.5% + 5%", "2.5% Token | 5% Platform + 2.5% Youth", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop"),
-            ("📣 Sponsors", "$500/Mo", "$500/Mo or $5000/Yr (fund isolated)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop"),
-            ("🏅 Federation", "$150K/Yr", "FIFA Tech-Penetration Reports", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop"),
-            ("🚌 Logistics", "$30/Mo", "Team Bus & Field Assets Tracking", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop"),
+            ("🥅 Youth Pack", "$20/Mo", "FREE under 16 with Parental Consent & GDPR", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop", True),
+            ("👟 Seniors Pack", "$30/Mo", "YOLO26 Kinematic Tracking & Readiness", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop", False),
+            ("📡 Scouts Market", "$50/Mo", "Ingestion Radar & Encrypted Channels", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop", False),
+            ("🏟️ Amateur Clubs", "$150/Mo", "Coach HUD & Remontada Engine (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop", False),
+            ("🎽 Division 1 Clubs", "$500/Mo", "Drone Feed & Digital Twins", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop", False),
+            ("🏆 Championship Clubs", "$1500/Mo", "Military-Grade Cyber Sandbox", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
+            ("📋 Compliance + Token", "2.5% + 5%", "2.5% Token | 5% Platform + 2.5% Youth", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
+            ("📣 Sponsors", "$500/Mo", "$500/Mo or $5000/Yr (fund isolated)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Federation", "$150K/Yr", "FIFA Tech-Penetration Reports", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🚌 Logistics", "$30/Mo", "Team Bus & Field Assets Tracking", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 All", "⚽ Players", "🏟️ Clubs", "📡 Scouts", "📋 Finance", "🏅 Federations"],
     },
     "🇫🇷 Français": {
         "title": "Plateforme Globale Omnia DeepArena",
         "tagline": "L'histoire du football racontée ici",
-        "sub": "⚽ Tout ce qui compte pour le football — et rien que le football.",
         "search": "🔎 Rechercher...",
         "open": "⚽ Ouvrir",
         "back": "⬅️ Retour",
-        "pitch": "Carte Tactique",
         "playing": "🎶 En lecture",
         "stopped": "🔇 Arrêté",
         "play": "▶️ Lecture",
         "stop": "⏸️ Pause",
-        "dl": "⬇️ Télécharger",
+        "controls": "Contrôles Rapides",
+        "lang_label": "🌐 Langue",
+        "music_label": "🎵 Hymne UCL",
+        "gdpr": "🔒 Visage flouté (protection enfant)",
         "packs": [
-            ("🥅 Pack Jeunes", "20$/M", "GRATUIT -16 ans avec Consentement", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop"),
-            ("👟 Pack Seniors", "30$/M", "Suivi YOLO26 & Préparation Physique", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop"),
-            ("📡 Recruteurs", "50$/M", "Radar d'Ingestion & Canaux Chiffrés", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop"),
-            ("🏟️ Clubs Amateurs", "150$/M", "HUD Entraîneur & Remontada (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop"),
-            ("🎽 Division 1", "500$/M", "Flux Drone & Jumeaux Numériques", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop"),
-            ("🏆 Top Clubs", "1500$/M", "Cyber Sandbox Militaire", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop"),
-            ("📋 Conformité + Token", "2.5% + 5%", "2.5% Token | 5% Plateforme + 2.5% Formation", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop"),
-            ("📣 Sponsors", "500$/M", "500$/M ou 5000$/An (fonds isolé)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop"),
-            ("🏅 Fédération", "150K$/An", "Rapports FIFA Publics", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop"),
-            ("🚌 Logistique", "30$/M", "Suivi Bus Équipe & Actifs", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop"),
+            ("🥅 Pack Jeunes", "20$/M", "GRATUIT -16 ans avec Consentement", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop", True),
+            ("👟 Pack Seniors", "30$/M", "Suivi YOLO26 & Préparation Physique", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop", False),
+            ("📡 Recruteurs", "50$/M", "Radar d'Ingestion & Canaux Chiffrés", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop", False),
+            ("🏟️ Clubs Amateurs", "150$/M", "HUD Entraîneur & Remontada (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop", False),
+            ("🎽 Division 1", "500$/M", "Flux Drone & Jumeaux Numériques", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop", False),
+            ("🏆 Top Clubs", "1500$/M", "Cyber Sandbox Militaire", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
+            ("📋 Conformité + Token", "2.5% + 5%", "2.5% Token | 5% Plateforme + 2.5% Formation", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
+            ("📣 Sponsors", "500$/M", "500$/M ou 5000$/An (fonds isolé)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Fédération", "150K$/An", "Rapports FIFA Publics", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🚌 Logistique", "30$/M", "Suivi Bus Équipe & Actifs", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 Tout", "⚽ Joueurs", "🏟️ Clubs", "📡 Recruteurs", "📋 Finance", "🏅 Fédérations"],
     },
     "🇪🇸 Español": {
         "title": "Plataforma Global Omnia DeepArena",
         "tagline": "La historia del fútbol contada aquí",
-        "sub": "⚽ Todo lo que importa en el fútbol — y solo fútbol.",
         "search": "🔎 Buscar...",
         "open": "⚽ Abrir",
         "back": "⬅️ Volver",
-        "pitch": "Mapa Táctico",
         "playing": "🎶 Reproduciendo",
         "stopped": "🔇 Detenido",
         "play": "▶️ Reproducir",
         "stop": "⏸️ Pausar",
-        "dl": "⬇️ Descargar",
+        "controls": "Controles Rápidos",
+        "lang_label": "🌐 Idioma",
+        "music_label": "🎵 Himno UCL",
+        "gdpr": "🔒 Rostro difuminado (protección infantil)",
         "packs": [
-            ("🥅 Juvenil", "20$/M", "GRATIS -16 con Consentimiento", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop"),
-            ("👟 Seniors", "30$/M", "YOLO26 y Preparación Física", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop"),
-            ("📡 Ojeadores", "50$/M", "Radar y Canales Cifrados", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop"),
-            ("🏟️ Amateurs", "150$/M", "HUD Entrenador y Remontada (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop"),
-            ("🎽 Primera Div", "500$/M", "Drones y Gemelos Digitales", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop"),
-            ("🏆 Grandes Clubes", "1500$/M", "Cyber Sandbox Militar", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop"),
-            ("📋 Cumplimiento + Token", "2.5% + 5%", "2.5% Token | 5% Plataforma + 2.5% Formación", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop"),
-            ("📣 Patrocinadores", "500$/M", "500$/M o 5000$/Año (aislado)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop"),
-            ("🏅 Federación", "150K$/Año", "Informes FIFA Públicos", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop"),
-            ("🚌 Logística", "30$/M", "Autobús y Activos del Equipo", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop"),
+            ("🥅 Juvenil", "20$/M", "GRATIS -16 con Consentimiento", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop", True),
+            ("👟 Seniors", "30$/M", "YOLO26 y Preparación Física", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop", False),
+            ("📡 Ojeadores", "50$/M", "Radar y Canales Cifrados", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop", False),
+            ("🏟️ Amateurs", "150$/M", "HUD Entrenador y Remontada (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop", False),
+            ("🎽 Primera Div", "500$/M", "Drones y Gemelos Digitales", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop", False),
+            ("🏆 Grandes Clubes", "1500$/M", "Cyber Sandbox Militar", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
+            ("📋 Cumplimiento + Token", "2.5% + 5%", "2.5% Token | 5% Plataforma + 2.5% Formación", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
+            ("📣 Patrocinadores", "500$/M", "500$/M o 5000$/Año (aislado)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Federación", "150K$/Año", "Informes FIFA Públicos", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🚌 Logística", "30$/M", "Autobús y Activos del Equipo", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 Todo", "⚽ Jugadores", "🏟️ Clubs", "📡 Ojeadores", "📋 Finanzas", "🏅 Federaciones"],
     },
     "🇮🇹 Italiano": {
         "title": "Piattaforma Globale Omnia DeepArena",
         "tagline": "La storia del calcio raccontata qui",
-        "sub": "⚽ Tutto ciò che conta nel calcio — e solo il calcio.",
         "search": "🔎 Cerca...",
         "open": "⚽ Apri",
         "back": "⬅️ Indietro",
-        "pitch": "Mappa Tattica",
         "playing": "🎶 In riproduzione",
         "stopped": "🔇 Fermato",
         "play": "▶️ Riproduci",
         "stop": "⏸️ Pausa",
-        "dl": "⬇️ Scarica",
+        "controls": "Controlli Rapidi",
+        "lang_label": "🌐 Lingua",
+        "music_label": "🎵 Inno UCL",
+        "gdpr": "🔒 Volto sfocato (protezione minori)",
         "packs": [
-            ("🥅 Giovani", "20$/M", "GRATIS -16 con Consenso", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop"),
-            ("👟 Seniors", "30$/M", "YOLO26 e Preparazione Fisica", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop"),
-            ("📡 Scout", "50$/M", "Radar e Canali Crittografati", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop"),
-            ("🏟️ Dilettanti", "150$/M", "HUD Allenatore e Remontada (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop"),
-            ("🎽 Prima Div", "500$/M", "Drone e Gemelli Digitali", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop"),
-            ("🏆 Grandi Club", "1500$/M", "Cyber Sandbox Militare", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop"),
-            ("📋 Conformità + Token", "2.5% + 5%", "2.5% Token | 5% Piattaforma + 2.5% Formazione", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop"),
-            ("📣 Sponsor", "500$/M", "500$/M o 5000$/Anno (isolato)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop"),
-            ("🏅 Federazione", "150K$/Anno", "Report FIFA Pubblici", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop"),
-            ("🚌 Logistica", "30$/M", "Bus Squadra e Asset", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop"),
+            ("🥅 Giovani", "20$/M", "GRATIS -16 con Consenso", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop", True),
+            ("👟 Seniors", "30$/M", "YOLO26 e Preparazione Fisica", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop", False),
+            ("📡 Scout", "50$/M", "Radar e Canali Crittografati", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop", False),
+            ("🏟️ Dilettanti", "150$/M", "HUD Allenatore e Remontada (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop", False),
+            ("🎽 Prima Div", "500$/M", "Drone e Gemelli Digitali", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop", False),
+            ("🏆 Grandi Club", "1500$/M", "Cyber Sandbox Militare", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
+            ("📋 Conformità + Token", "2.5% + 5%", "2.5% Token | 5% Piattaforma + 2.5% Formazione", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
+            ("📣 Sponsor", "500$/M", "500$/M o 5000$/Anno (isolato)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Federazione", "150K$/Anno", "Report FIFA Pubblici", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🚌 Logistica", "30$/M", "Bus Squadra e Asset", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 Tutto", "⚽ Giocatori", "🏟️ Club", "📡 Scout", "📋 Finanza", "🏅 Federazioni"],
     },
     "🇵🇹 Português": {
         "title": "Plataforma Global Omnia DeepArena",
         "tagline": "A história do futebol contada aqui",
-        "sub": "⚽ Tudo o que importa no futebol — e só futebol.",
         "search": "🔎 Pesquisar...",
         "open": "⚽ Abrir",
         "back": "⬅️ Voltar",
-        "pitch": "Mapa Tático",
         "playing": "🎶 Reproduzindo",
         "stopped": "🔇 Parado",
         "play": "▶️ Reproduzir",
         "stop": "⏸️ Pausar",
-        "dl": "⬇️ Baixar",
+        "controls": "Controles Rápidos",
+        "lang_label": "🌐 Idioma",
+        "music_label": "🎵 Hino UCL",
+        "gdpr": "🔒 Rosto desfocado (proteção infantil)",
         "packs": [
-            ("🥅 Juvenil", "20$/M", "GRÁTIS -16 com Consentimento", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop"),
-            ("👟 Seniors", "30$/M", "YOLO26 e Prontidão Física", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop"),
-            ("📡 Olheiros", "50$/M", "Radar e Canais Cifrados", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop"),
-            ("🏟️ Amadores", "150$/M", "HUD Treinador e Remontada (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop"),
-            ("🎽 Primeira Div", "500$/M", "Drone e Gêmeos Digitais", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop"),
-            ("🏆 Grandes", "1500$/M", "Cyber Sandbox Militar", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop"),
-            ("📋 Conformidade + Token", "2.5% + 5%", "2.5% Token | 5% Plataforma + 2.5% Formação", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop"),
-            ("📣 Patrocinadores", "500$/M", "500$/M ou 5000$/Ano (isolado)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop"),
-            ("🏅 Federação", "150K$/Ano", "Relatórios FIFA Públicos", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop"),
-            ("🚌 Logística", "30$/M", "Ônibus e Ativos da Equipe", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop"),
+            ("🥅 Juvenil", "20$/M", "GRÁTIS -16 com Consentimento", "https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80&auto=format&fit=crop", True),
+            ("👟 Seniors", "30$/M", "YOLO26 e Prontidão Física", "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800&q=80&auto=format&fit=crop", False),
+            ("📡 Olheiros", "50$/M", "Radar e Canais Cifrados", "https://images.unsplash.com/photo-1552667466-07770ae110d0?w=800&q=80&auto=format&fit=crop", False),
+            ("🏟️ Amadores", "150$/M", "HUD Treinador e Remontada (VIP)", "https://images.unsplash.com/photo-1459865264687-595d652de67e?w=800&q=80&auto=format&fit=crop", False),
+            ("🎽 Primeira Div", "500$/M", "Drone e Gêmeos Digitais", "https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=800&q=80&auto=format&fit=crop", False),
+            ("🏆 Grandes", "1500$/M", "Cyber Sandbox Militar", "https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=800&q=80&auto=format&fit=crop", False),
+            ("📋 Conformidade + Token", "2.5% + 5%", "2.5% Token | 5% Plataforma + 2.5% Formação", "https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80&auto=format&fit=crop", False),
+            ("📣 Patrocinadores", "500$/M", "500$/M ou 5000$/Ano (isolado)", "https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=800&q=80&auto=format&fit=crop", False),
+            ("🏅 Federação", "150K$/Ano", "Relatórios FIFA Públicos", "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=800&q=80&auto=format&fit=crop", False),
+            ("🚌 Logística", "30$/M", "Ônibus e Ativos da Equipe", "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800&q=80&auto=format&fit=crop", False),
         ],
         "cats": ["🌍 Tudo", "⚽ Jogadores", "🏟️ Clubes", "📡 Olheiros", "📋 Finanças", "🏅 Federações"],
     },
 }
 
-# الفئات (10 باقات: 7 و 8 مدموجتان في رقم 7)
 CATS_MAP = [None, {0,1}, {3,4,5,9}, {2}, {6}, {7,8}]
 
 # ══════════════════════════════════════════════════════════════
@@ -487,6 +483,7 @@ if "page" not in st.session_state:
     st.session_state.page = None
 if "playing" not in st.session_state:
     st.session_state.playing = False
+
 
 # ══════════════════════════════════════════════════════════════
 # الشريط الجانبي
@@ -502,15 +499,14 @@ st.session_state.lang = lang
 t = L[lang]
 rtl = (lang == "🇸🇦 العربية")
 
-# مشغل موسيقى دوري الأبطال
 st.sidebar.markdown("### 🎵 دوري أبطال أوروبا")
 c1, c2 = st.sidebar.columns(2)
 with c1:
-    if st.button(t["play"], key="play_btn"):
+    if st.button(t["play"], key="play_btn_sb"):
         st.session_state.playing = True
         st.rerun()
 with c2:
-    if st.button(t["stop"], key="stop_btn"):
+    if st.button(t["stop"], key="stop_btn_sb"):
         st.session_state.playing = False
         st.rerun()
 
@@ -523,15 +519,49 @@ if st.session_state.playing:
 else:
     st.sidebar.info(t["stopped"])
 
-st.sidebar.markdown("---")
-st.sidebar.markdown(f"**🌐 {lang}**")
 
 # ══════════════════════════════════════════════════════════════
 # عرض الصفحات
 # ══════════════════════════════════════════════════════════════
 def show_home():
     d = "rtl" if rtl else "ltr"
-    # HERO
+
+    # ═══ شريط التحكم العلوي (لغة + موسيقى) ═══
+    st.markdown(f'<div class="top-controls"><div class="top-controls-title">⚙️ {esc(t["controls"])}</div></div>', unsafe_allow_html=True)
+
+    colA, colB = st.columns([1, 1])
+    with colA:
+        st.markdown(f"**{t['lang_label']}**")
+        new_lang = st.selectbox(
+            "", list(L.keys()),
+            index=list(L.keys()).index(st.session_state.lang),
+            key="top_lang"
+        )
+        if new_lang != st.session_state.lang:
+            st.session_state.lang = new_lang
+            st.rerun()
+
+    with colB:
+        st.markdown(f"**{t['music_label']}**")
+        cc1, cc2 = st.columns(2)
+        with cc1:
+            if st.button(t["play"], key="play_btn_top", use_container_width=True):
+                st.session_state.playing = True
+                st.rerun()
+        with cc2:
+            if st.button(t["stop"], key="stop_btn_top", use_container_width=True):
+                st.session_state.playing = False
+                st.rerun()
+
+    if st.session_state.playing:
+        st.audio(
+            "https://static.calcionapoli1926.it/202109/Uefa-Champions-League.mp3",
+            format="audio/mp3"
+        )
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # ═══ HERO ═══
     st.markdown(f"""
     <div class="hero {d}" dir="{d}">
         <div class="ball-float">⚽</div>
@@ -539,24 +569,15 @@ def show_home():
         <div class="hero-eyebrow">OMNIA DEEPARENA • 2030</div>
         <div class="hero-title"><span class="hero-text">{esc(t['title'])}</span></div>
         <div class="hero-tagline">✦ {esc(t['tagline'])} ✦</div>
-        <div class="hero-sub">{esc(t['sub'])}</div>
         <div class="hero-credit">A FOOTBALL STORY</div>
     </div>
     """, unsafe_allow_html=True)
 
-    # PITCH 3D
-    st.markdown(f"""
-    <div class="pitch-wrap">
-        <div class="pitch-label">⚽ {esc(t['pitch'])} ⚽</div>
-        <div class="pitch"></div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    # البحث
+    # ═══ البحث ═══
     query = st.text_input(t["search"], label_visibility="collapsed")
     needle = query.strip().casefold()
 
-    # التبويبات
+    # ═══ التبويبات ═══
     tabs = st.tabs(t["cats"])
     packs = t["packs"]
     for idx, (tab, members) in enumerate(zip(tabs, CATS_MAP)):
@@ -573,18 +594,20 @@ def show_home():
                 st.info("—")
                 continue
 
-            # عرض بطاقتين في كل صف
             for row_start in range(0, len(shown), 2):
                 cols = st.columns(2, gap="large")
                 for col, i in zip(cols, shown[row_start:row_start + 2]):
-                    name, price, desc, img = packs[i]
+                    name, price, desc, img, blur = packs[i]
+                    blur_class = "blur-face" if blur else ""
+                    blur_badge = f'<span class="blur-badge">{esc(t["gdpr"])}</span>' if blur else ""
                     with col:
                         st.markdown(f"""
-                        <div class="glass-card {d}" dir="{d}">
+                        <div class="glass-card {d} {blur_class}" dir="{d}">
                             <div class="card-tape"></div>
                             <div class="card-img-wrap">
                                 <img class="card-img" src="{img}" loading="lazy" alt="football">
                                 <div class="card-icon">{name.split()[0]}</div>
+                                {blur_badge}
                             </div>
                             <div class="card-body">
                                 <div class="card-title">{esc(' '.join(name.split()[1:]))}</div>
@@ -602,24 +625,31 @@ def show_home():
 
 def show_pack(i):
     d = "rtl" if rtl else "ltr"
-    name, price, desc, img = t["packs"][i]
+    name, price, desc, img, blur = t["packs"][i]
 
     st.markdown(f"""
     <div class="hero {d}" dir="{d}" style="padding:40px 30px;">
         <div class="hero-eyebrow">PACK #P{i+1}</div>
         <div class="hero-title"><span class="hero-text">{esc(name)}</span></div>
-        <div class="hero-sub">{esc(desc)}</div>
+        <div class="hero-tagline" style="margin-top:10px;">💰 {esc(price)}</div>
     </div>
     """, unsafe_allow_html=True)
 
     col1, col2 = st.columns([1, 1])
     with col1:
+        blur_class = "blur-face" if blur else ""
+        st.markdown(f'<div class="{blur_class}">', unsafe_allow_html=True)
         st.image(img, use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
+        if blur:
+            st.caption(f"🔒 {t['gdpr']}")
     with col2:
         st.markdown(f"""
         <div class="glass-card {d}" dir="{d}" style="padding:20px;">
             <div class="card-body">
                 <h3 style="color:#00ff88; margin-top:0;">💰 {esc(price)}</h3>
+                <p style="color:#dbe7e1; line-height:1.8;">{esc(desc)}</p>
+                <hr style="border-color:rgba(0,255,136,.2);">
                 <p style="color:#dbe7e1; line-height:1.8;">
                     ✅ تجربة كاملة للمنصة<br>
                     ✅ دعم فني على مدار الساعة<br>
