@@ -5,9 +5,9 @@ import cv2
 from ultralytics import YOLO
 
 # ═══════════════════════════════════════════════════════════════
-# 1️⃣ إعدادات الصفحة
+# 1️⃣ إعدادات الصفحة وحقن التصميم السينمائي
 # ═══════════════════════════════════════════════════════════════
-st.set_page_config(layout="wide", page_icon="👶", page_title="Youth Players")
+st.set_page_config(layout="wide", page_icon="⚽", page_title="Omnia DeepArena")
 
 st.markdown("""
 <style>
@@ -20,12 +20,90 @@ st.markdown("""
 # 2️⃣ قاموس اللغات الست
 # ═══════════════════════════════════════════════════════════════
 LANG_YOUTH = {
-    "🇸🇦 العربية": ["👶 باقة الناشئين والأطفال الملوّنة", "💰 السعر: 20$/شهرياً | ✨ مجاناً دون 16 سنة بموافقة الولي والـ GDPR", "العمر اللحظي للناشئ:", "🔒 نظام حماية القصر الإلزامي دون 16 سنة:", "اسم الولي الشرعي بالكامل:", "رقم الهوية أو الإقرار القانوني:", "✅ تم توثيق موافقة الولي الشرعي برقم مشفر وتفعيل التغبيش الرقمي للوجوه حياً.", "🎥 البث الحي لكاميرا الهاتف (YOLO26 Live Lens)", "📂 رفع مقطع فيديو مسجل للتحليل الحركي", "📊 لوحة تحكم تحليلات الأداء والجاهزية الطبية والنفسية", "🔄 رادار التطابق التكتيكي والتشبيه بالنجوم الـ 15", "تم احتساب التطابق البصري الحركي! أسلوب لعبك يشبه النجم العالمي: "],
-    "🇬🇧 English": ["👶 Youth & Kids Premium Suite", "💰 Price: $20/Mo | ✨ 100% FREE Under 16 with Parental Consent & GDPR", "Current Youth Age:", "🔒 Mandatory Under-16 Protection System:", "Legal Guardian Full Name:", "Guardian ID / Legal Token:", "✅ Legal consent documented via encrypted token & dynamic face masking active.", "🎥 Live Phone Camera Stream (YOLO26 Live Lens)", "📂 Upload Recorded Video for Kinematic Analysis", "📊 Performance Analytics, Medical & Emotion AI HUD", "🔄 Tactical Alignment Radar & Top 15 Star Cards", "Optical matching calculated! Your playing style matches international star: "],
-    "🇫🇷 Français": ["👶 Suite Premium Jeunes & Enfants", "💰 Prix: 20$/Mois | ✨ 100% GRATUIT moins de 16 ans avec accord parental & GDPR", "Âge actuel du jeune:", "🔒 Système de protection obligatoire des mineurs:", "Nom complet du tuteur légal:", "Numéro d'identité / Token légal:", "✅ Consentement légal documenté via token chiffré & floutage dynamique actif.", "🎥 Flux Caméra Live Téléphone (YOLO26 Live Lens)", "📂 Télécharger une Vidéo pour l'Analyse Cinématique", "📊 HUD des Analyses de Performance, Médicales & Emotion AI", "🔄 Radar d'Alignement Tactique & Top 15 Star Cards", "Correspondance optique calculée! Votre style de jeu ressemble à la star: "],
-    "🇪🇸 Español": ["👶 Suite Premium Juvenil e Infantil", "💰 Precio: 20$/Mes | ✨ 100% GRATIS menores de 16 años con consentimiento & GDPR", "Edad actual del menor:", "🔒 Sistema obligatorio de protección de menores:", "Nombre completo del tutor legal:", "ID del tutor / Token legal:", "✅ Consentimiento legal documentado mediante token cifrado y enmascaramiento facial activo.", "🎥 Transmisión en Vivo de la Cámara (YOLO26 Live Lens)", "📂 Cargar Video Grabado para Análisis Cinemático", "📊 HUD de Análisis de Rendimiento, Médico y Emotion AI", "🔄 Radar de Alineación Táctica y Top 15 Star Cards", "¡Coincidencia óptica calculada! Tu estilo de juego se parece a la estrella: "],
-    "🇮🇹 Italiano": ["👶 Suite Premium Giovani & Bambini", "💰 Prezzo: 20$/Mese | ✨ 100% GRATIS sotto i 16 anni con consenso & GDPR", "Età attuale del giovane:", "🔒 Sistema di protezione obbligatorio per i minori:", "Nome completo del tutore legale:", "ID del tutore / Token legale:", "✅ Consenso legale documentato tramite token crittografato e mascheramento facciale attivo.", "🎥 Streaming Live Fotocamera Telefono (YOLO26 Live Lens)", "📂 Carica Video Registrato per Analisi Cinematica", "📊 HUD di Analisi delle Prestazioni, Mediche & Emotion AI", "🔄 Radar di Allineamento Tattico & Top 15 Star Cards", "Corrispondenza ottica calcolata! Il tuo stile di gioco somiglia alla stella: "],
-    "🇵🇹 Português": ["👶 Suite Premium Juvenil & Crianças", "💰 Preço: 20$/Mês | ✨ 100% GRÁTIS menor de 16 anos com consentimento & GDPR", "Idade atual do jovem:", "🔒 Sistema de proteção obrigatório de menores:", "Nome completo do tutor legal:", "ID do tutor / Token legal:", "✅ Consentimento legal documentado via token criptografado e mascaramento facial ativo.", "🎥 Transmissão ao Vivo da Câmera do Telefone (YOLO26)", "📂 Carregar Vídeo Gravado para Análise Cinemática", "📊 HUD de Análise de Desempenho, Médica & Emotion AI", "🔄 Radar de Alinhamento Táctico & Top 15 Star Cards", "Correspondência óptica calculada! O teu estilo de jogo parece-se com a estrela: "]
+    "🇸🇦 العربية": [
+        "👶 باقة الناشئين والأطفال الملوّنة",
+        "💰 السعر: 20$/شهرياً | ✨ مجاناً دون 16 سنة بموافقة الولي والـ GDPR",
+        "العمر اللحظي للناشئ:",
+        "🔒 نظام حماية القصر الإلزامي دون 16 سنة:",
+        "اسم الولي الشرعي بالكامل:",
+        "رقم الهوية أو الإقرار القانوني:",
+        "✅ تم توثيق موافقة الولي الشرعي برقم مشفر وتفعيل التغبيش الرقمي للوجوه حياً.",
+        "🎥 البث الحي لكاميرا الهاتف (YOLO26 Live Lens)",
+        "📂 رفع مقطع فيديو مسجل للتحليل الحركي",
+        "📊 لوحة تحكم تحليلات الأداء والجاهزية الطبية والنفسية",
+        "🔄 رادار التطابق التكتيكي والتشبيه بالنجوم الـ 15",
+        "تم احتساب التطابق البصري الحركي! أسلوب لعبك يشبه النجم العالمي: "
+    ],
+    "🇬🇧 English": [
+        "👶 Youth & Kids Premium Suite",
+        "💰 Price: $20/Mo | ✨ 100% FREE Under 16 with Parental Consent & GDPR",
+        "Current Youth Age:",
+        "🔒 Mandatory Under-16 Protection System:",
+        "Legal Guardian Full Name:",
+        "Guardian ID / Legal Token:",
+        "✅ Legal consent documented via encrypted token & dynamic face masking active.",
+        "🎥 Live Phone Camera Stream (YOLO26 Live Lens)",
+        "📂 Upload Recorded Video for Kinematic Analysis",
+        "📊 Performance Analytics, Medical & Emotion AI HUD",
+        "🔄 Tactical Alignment Radar & Top 15 Star Cards",
+        "Optical matching calculated! Your playing style matches international star: "
+    ],
+    "🇫🇷 Français": [
+        "👶 Suite Premium Jeunes & Enfants",
+        "💰 Prix: 20$/Mois | ✨ 100% GRATUIT moins de 16 ans avec accord parental & GDPR",
+        "Âge actuel du jeune:",
+        "🔒 Système de protection obligatoire des mineurs:",
+        "Nom complet du tuteur légal:",
+        "Numéro d'identité / Token légal:",
+        "✅ Consentement légal documenté via token chiffré & floutage dynamique actif.",
+        "🎥 Flux Caméra Live Téléphone (YOLO26 Live Lens)",
+        "📂 Télécharger une Vidéo pour l'Analyse Cinématique",
+        "📊 HUD des Analyses de Performance, Médicales & Emotion AI",
+        "🔄 Radar d'Alignement Tactique & Top 15 Star Cards",
+        "Correspondance optique calculée! Votre style de jeu ressemble à la star: "
+    ],
+    "🇪🇸 Español": [
+        "👶 Suite Premium Juvenil e Infantil",
+        "💰 Precio: 20$/Mes | ✨ 100% GRATIS menores de 16 años con consentimiento & GDPR",
+        "Edad actual del menor:",
+        "🔒 Sistema obligatorio de protección de menores:",
+        "Nombre completo del tutor legal:",
+        "ID del tutor / Token legal:",
+        "✅ Consentimiento legal documentado mediante token cifrado y enmascaramiento facial activo.",
+        "🎥 Transmisión en Vivo de la Cámara (YOLO26 Live Lens)",
+        "📂 Cargar Video Grabado para Análisis Cinemático",
+        "📊 HUD de Análisis de Rendimiento, Médico y Emotion AI",
+        "🔄 Radar de Alineación Táctica y Top 15 Star Cards",
+        "¡Coincidencia óptica calculada! Tu estilo de juego se parece a la estrella: "
+    ],
+    "🇮🇹 Italiano": [
+        "👶 Suite Premium Giovani & Bambini",
+        "💰 Prezzo: 20$/Mese | ✨ 100% GRATIS sotto i 16 anni con consenso & GDPR",
+        "Età attuale del giovane:",
+        "🔒 Sistema di protezione obbligatorio per i minori:",
+        "Nome completo del tutore legale:",
+        "ID del tutore / Token legale:",
+        "✅ Consenso legale documentato tramite token crittografato e mascheramento facciale attivo.",
+        "🎥 Streaming Live Fotocamera Telefono (YOLO26 Live Lens)",
+        "📂 Carica Video Registrato per Analisi Cinematica",
+        "📊 HUD di Analisi delle Prestazioni, Mediche & Emotion AI",
+        "🔄 Radar di Allineamento Tattico & Top 15 Star Cards",
+        "Corrispondenza ottica calcolata! Il tuo stile di gioco somiglia alla stella: "
+    ],
+    "🇵🇹 Português": [
+        "👶 Suite Premium Juvenil & Crianças",
+        "💰 Preço: 20$/Mês | ✨ 100% GRÁTIS menor de 16 anos com consentimento & GDPR",
+        "Idade atual do jovem:",
+        "🔒 Sistema de proteção obrigatório de menores:",
+        "Nome completo do tutor legal:",
+        "ID do tutor / Token legal:",
+        "✅ Consentimento legal documentado via token criptografado e mascaramento facial ativo.",
+        "🎥 Transmissão ao Vivo da Câmera do Telefone (YOLO26)",
+        "📂 Carregar Vídeo Gravado para Análise Cinemática",
+        "📊 HUD de Análise de Desempenho, Médica & Emotion AI",
+        "🔄 Radar de Alinhamento Táctico & Top 15 Star Cards",
+        "Correspondência óptica calculada! O teu estilo de jogo parece-se com a estrela: "
+    ]
 }
 
 sel_lang = st.session_state.get("lang", "🇸🇦 العربية")
@@ -52,14 +130,13 @@ else:
     parent_agree = True
 
 # ═══════════════════════════════════════════════════════════════
-# 4️⃣ تحميل نموذج YOLO (مرة واحدة - caching)
+# 4️⃣ تحميل نموذج YOLO26 (مرة واحدة - caching)
 # ═══════════════════════════════════════════════════════════════
 @st.cache_resource(show_spinner=False)
 def load_yolo_model():
-    """تحميل نموذج YOLO Pose - مرة واحدة فقط للذاكرة"""
+    """تحميل نموذج YOLO26 Pose - مرة واحدة فقط للذاكرة"""
     try:
-        # ⚠️ عند صدور YOLO26 الرسمي، غيّر الاسم إلى "yolo26-pose.pt"
-        model = YOLO("yolo11n-pose.pt")
+        model = YOLO("yolo26n-pose.pt")  # ← YOLO26 الجديد
         return model
     except Exception as e:
         st.error(f"❌ فشل تحميل النموذج: {e}")
@@ -122,11 +199,6 @@ async def yolo26_youth_engine(frame_bytes, model):
                             cv2.line(annotated,
                                      (int(p1[0]), int(p1[1])),
                                      (int(p2[0]), int(p2[1])),
-                                     NEON_GREEN, 3, cv2.LINE_AA)
-                            # توهج خارجي
-                            cv2.line(annotated,
-                                     (int(p1[0]), int(p1[1])),
-                                     (int(p2[0]), int(p2[1])),
                                      NEON_GREEN, 6, cv2.LINE_AA)
                             cv2.line(annotated,
                                      (int(p1[0]), int(p1[1])),
@@ -143,7 +215,6 @@ async def yolo26_youth_engine(frame_bytes, model):
                             cv2.circle(annotated, (cx, cy), 4, (255, 255, 255), -1, cv2.LINE_AA)
 
                 # ════ درع GDPR: تغبيش الوجه ════
-                # استخدام نقاط الوجه (الأنف 0، العينين 1-2، الأذنين 3-4)
                 face_pts = person_kps[:5]
                 if conf is not None:
                     valid_mask = conf[idx][:5] > 0.3
@@ -159,11 +230,9 @@ async def yolo26_youth_engine(frame_bytes, model):
 
                     if x_max > x_min and y_max > y_min:
                         roi = annotated[y_min:y_max, x_min:x_max]
-                        # تغبيش غاوسي قوي لحماية هوية القاصر
                         blurred = cv2.GaussianBlur(roi, (61, 61), 0)
                         annotated[y_min:y_max, x_min:x_max] = blurred
 
-                        # إطار GDPR حول الوجه
                         cv2.rectangle(annotated,
                                       (x_min, y_min), (x_max, y_max),
                                       NEON_CYAN, 2, cv2.LINE_AA)
@@ -180,7 +249,6 @@ async def yolo26_youth_engine(frame_bytes, model):
                 (20, 65), cv2.FONT_HERSHEY_SIMPLEX, 0.6, NEON_CYAN, 2, cv2.LINE_AA)
 
     return annotated
-
 
 # ═══════════════════════════════════════════════════════════════
 # 6️⃣ تفعيل العدسة التكتيكية
@@ -201,7 +269,6 @@ if parent_agree:
                 processed = asyncio.run(yolo26_youth_engine(data, model))
 
             if processed is not None:
-                # تحويل BGR → RGB لعرض Streamlit
                 processed_rgb = cv2.cvtColor(processed, cv2.COLOR_BGR2RGB)
                 st.image(processed_rgb, channels="RGB", use_container_width=True,
                          caption="🎯 تحليل حركي | 🔒 وجه مُغبّش | ⚡ هيكل نيون")
